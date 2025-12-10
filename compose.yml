@@ -1,0 +1,17 @@
+name: photos-slideshow-task
+services:
+  nextjs:
+    container_name: nextjs
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    networks:
+      - network
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    ports:
+      - 3123:3000
+
+networks:
+  network:
