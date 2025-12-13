@@ -2,6 +2,7 @@ import Slider from "@/components/slider";
 import { UploadImage } from "@/components/uploadImage";
 import SlidesDataList from "@/components/slidesDataList";
 import LoadInitialDataFromLocalStorage from "@/components/loadInitialDataFromLocalStorage";
+import SliderOperatingModeTabs from "@/components/sliderOperatingModeTabs";
 
 export default function Home() {
   return (
@@ -10,6 +11,7 @@ export default function Home() {
       <UploadImage />
       <SlidesDataList />
       <LoadInitialDataFromLocalStorage />
+      <SliderOperatingModeTabs />
     </div>
   );
 }

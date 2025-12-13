@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import SlidesReducer from "./features/slidesSlice";
+import SliderOperatingModeReducer from "./features/sliderOperatingMode";
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       slides: SlidesReducer,
+      sliderOperatingMode: SliderOperatingModeReducer,
     },
   });
 };

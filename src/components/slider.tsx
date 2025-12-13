@@ -24,6 +24,14 @@ const useFullscreenChange = (callback: () => void) => {
   }, [callback]);
 };
 
+const shuffleArray = (array: any[]) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+};
+
 export default function Slider() {
   // I create this state to start caption animation when slide change
   const [currentSlideIndex, setCurrentSlideIndex] = useState<number>(0);
@@ -70,17 +78,32 @@ const SliderConfig = ({
   setCurrentSlideIndex: (index: number) => void;
   children: React.ReactNode;
 }) => {
+  const sliderConfigs = useAppSelector(
+    (state: RootState) => state.sliderOperatingMode.sliderConfigs
+  );
+  const swiperRef = useRef<SwiperType | null>(null);
+
+  useEffect(() => {
+    if (!swiperRef.current) return;
+
+    if (sliderConfigs.autoplay) swiperRef.current?.autoplay.start();
+    else swiperRef.current?.autoplay.stop();
+  }, [sliderConfigs]);
+
   return (
     <Swiper
-      loop
       modules={[Navigation, Pagination, Autoplay, Keyboard]}
       keyboard={{ enabled: true }}
       navigation
       pagination={{ clickable: true }}
-      autoplay={{ delay: 3000, disableOnInteraction: false }}
+      autoplay={sliderConfigs.autoplay}
+      loop
       onSlideChange={(swiper: SwiperType) =>
         setCurrentSlideIndex(swiper.realIndex)
       }
+      onSwiper={(swiper: SwiperType) => {
+        swiperRef.current = swiper;
+      }}
       className="w-full h-full"
     >
       {children}
@@ -89,7 +112,21 @@ const SliderConfig = ({
 };
 
 const Slides = ({ currentSlideIndex }: { currentSlideIndex: number }) => {
-  const slides = useAppSelector((state: RootState) => state.slides);
+  const stateSlides = useAppSelector((state: RootState) => state.slides);
+  const sliderOperatingMode = useAppSelector(
+    (state: RootState) => state.sliderOperatingMode.operatingMode
+  );
+  const [slides, setSlides] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (!stateSlides.length) return;
+
+    setSlides(
+      sliderOperatingMode === "random-playing"
+        ? shuffleArray([...stateSlides])
+        : stateSlides
+    );
+  }, [stateSlides, sliderOperatingMode]);
 
   return slides.map((slide: Slide, index: number) => (
     <SwiperSlide key={slide.id}>
