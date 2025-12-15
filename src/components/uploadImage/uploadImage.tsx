@@ -10,6 +10,7 @@ import {
   removeSlugAndFormatFileName,
 } from "./utils";
 import { toast } from "sonner";
+import { TypographyH1 } from "../ui/typography";
 
 export default function Uploader() {
   const dispatch = useAppDispatch();
@@ -35,7 +36,8 @@ export default function Uploader() {
   };
 
   return (
-    <div className="p-10">
+    <div>
+      <TypographyH1 className="mb-5">Upload image</TypographyH1>
       <UploadDropzone accept="image/*" uploadOverride={uploadImgToSlides} />
     </div>
   );

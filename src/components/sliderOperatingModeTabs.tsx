@@ -9,11 +9,12 @@ import {
 } from "@/reduxStore";
 import type { SliderOperatingModes } from "@/types";
 import { toast } from "sonner";
+import { TypographyH1 } from "./ui/typography";
 
 export default function SliderOperatingModeTabs() {
   const dispatch = useAppDispatch();
   const operatingModeDefaultValue = useAppSelector(
-    (state: RootState) => state.sliderOperatingMode.operatingMode
+    (state: RootState) => state.sliderOperatingMode
   );
 
   return (
@@ -25,8 +26,10 @@ export default function SliderOperatingModeTabs() {
         localStorage.setItem("operatingMode", value);
         toast.info("Operating Mode Changed");
       }}
-      className="my-6 items-center"
+      className="items-center"
     >
+      <TypographyH1 className="mb-5">Switching Operating</TypographyH1>
+
       <TabsList>
         <TabsTrigger value="auto-playing">Auto Playing</TabsTrigger>
         <TabsTrigger value="manual-control">Manual Control</TabsTrigger>
